@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1258044006F49DA" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="18a" sequence="1" unid="76321C6E1FAE34EDC1258044006FBE9E">
+<created><datetime dst="true">20161006T222032,94+02</datetime></created>
+<modified><datetime dst="true">20161006T222032,97+02</datetime></modified>
+<revised><datetime dst="true">20161006T222032,96+02</datetime></revised>
+<lastaccessed><datetime dst="true">20161006T222032,97+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20161006T222032,97+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$TITLE"><text>cloudant.properties</text></item>
+<item name="$Flags"><text>345CgQ</text></item>
+<item name="$MimeCharSet"><text>UTF-8</text></item>
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>cloudant.properties</text></item></note>

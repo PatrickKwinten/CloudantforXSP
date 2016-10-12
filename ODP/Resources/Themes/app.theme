@@ -1,0 +1,81 @@
+<!--
+	The default theme contents use theme inheritance.
+
+	Application themes can extend an existing global theme using the
+	extends attribute.  Existing themes include the following options:
+
+	1. webstandard 2. oneui 3. notes
+-->
+<theme extends="Bootstrap3.2.0_flat" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="platform:/plugin/com.ibm.designer.domino.stylekits/schema/stylekit.xsd" >
+	<!-- 
+		Use this pattern to include resources (such as style sheets
+		and JavaScript files that are used by this theme.
+	-->
+	
+	<!-- 
+	Not the following is not working in conjuction with the 
+	XSP Property 'runtime optimized resources'.
+	
+	Therefor the following workaround is applied:
+	- Move the @font-face part into 2 new CSS e.g. 
+		./font-awesome-4.2.0/css/font-awesome-fontFamily.css
+		./font-awesome-4.2.0/css/font-awesome-fontFamily.min.css
+	  
+	  Note the paths to the fonts differ in these files.	
+	  
+	- Load 1 of the css via the Theme based upon the context.getProperty('xsp.resources.aggregate') property
+	 -->
+	<resources>
+		<metaData>
+			<name>author</name>
+			<content>Patrick Kwinten</content>
+		</metaData>
+		<metaData>
+            <name>Description</name>
+            <content>Demo CLoudant plugin made by Frank van der Lindenes</content>
+        </metaData>
+		<metaData>
+            <name>keywords</name>
+            <content>IBM, Cloudant, XPages, couchDB</content>
+        </metaData>        
+        <metaData>
+			<httpEquiv>expires</httpEquiv>
+			<content>86400</content>
+		</metaData>
+		<metaData>
+			<name>viewport</name>
+			<content>width=device-width, initial-scale=1.0</content>
+		</metaData>
+	</resources>
+	
+	<resource rendered="#{javascript:context.getProperty('xsp.resources.aggregate').equals('false')}">
+	    <content-type>text/css</content-type>
+	    <href>font-awesome-4.4.0/css/font-awesome-fontFamily.css</href>
+	</resource>
+	<resource rendered="#{javascript:context.getProperty('xsp.resources.aggregate').equals('true')}">
+	    <content-type>text/css</content-type>
+	    <href>font-awesome-4.4.0/css/font-awesome-fontFamily.min.css</href>
+	</resource>
+	<resource>
+		<content-type>text/css</content-type>
+		<href>font-awesome-4.4.0/css/font-awesome.min.css</href>
+	</resource>
+	
+	<!-- theme id for links acting as buttons -->
+	<control>
+		<name>button</name>
+		<property mode="override">
+			<name>styleClass</name>
+			<value>btn</value>
+		</property>
+	</control>
+	<!-- it looks like a link, but acts like a button -->
+	<control>
+		<name>link.button</name>
+		<property mode="override">
+			<name>styleClass</name>
+			<value>btn btn-link</value>
+		</property>
+	</control>
+	
+</theme>

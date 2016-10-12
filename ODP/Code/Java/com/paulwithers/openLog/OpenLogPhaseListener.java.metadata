@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?><note class="form" maintenanceversion="1.5" replicaid="C1258044006F49DA" version="9.0" xmlns="http://www.lotus.com/dxl">
+<noteinfo noteid="17a" sequence="4" unid="7F571CBEAA1BBAFFC1258044006F7C51">
+<created><datetime dst="true">20161006T221743,21+02</datetime></created>
+<modified><datetime dst="true">20161006T221920,37+02</datetime></modified>
+<revised><datetime dst="true">20161006T221920,36+02</datetime></revised>
+<lastaccessed><datetime dst="true">20161006T221920,37+02</datetime></lastaccessed>
+<addedtofile><datetime dst="true">20161006T221743,28+02</datetime></addedtofile></noteinfo>
+<updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
+<wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name="$Flags"><text>34567Cg~[</text></item>
+<item name="$TITLE"><text>com/paulwithers/openLog/OpenLogPhaseListener.java</text></item>
+
+<item name="$DesignerVersion"><text>8.5.3</text></item>
+
+
+<item name="$FileNames" sign="true"><text>com/paulwithers/openLog/OpenLogPhaseListener.java</text></item>
+
+</note>

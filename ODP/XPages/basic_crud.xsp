@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
+	<xp:this.beforePageLoad><![CDATA[#{javascript://for a change we do not register a managed bean
+viewScope.controller = new org.quintessens.controller.CompanyController();
+}]]>
+	</xp:this.beforePageLoad>
+	<xp:panel styleClass="container">
+		<div class="jumbotron">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="md-col-4">
+						<img
+							src="https://lh4.googleusercontent.com/-BFBCTJN2-LE/AAAAAAAAAAI/AAAAAAAAABk/VxHKYLXECks/photo.jpg"
+							class="img-responsive img-circle col-xs-2" />
+					</div>
+					<div class="md-col-8">
+						<h1>Cloudant samples</h1>
+						<p>
+							Some basic operations towards Cloudant,
+							utilizing&#160;
+							<a href="http://elstarit.nl/2016/04/04/cloudant-connector-xpages/">
+								Frank van der Linden's
+								Cloudant-connector
+							</a>
+							&#160;for XPages
+						</p>
+						<div class="container">
+							<div class="row">
+								<div class="col-md-2 col-xs-6">
+									<xp:button value="Test Connection" id="button1"
+										styleClass="btn btn-primary">
+										<i class="fa fa-plug" aria-hidden="true"></i>&#160;
+										<xp:eventHandler event="onclick" submit="true"
+											refreshMode="complete">
+											<xp:this.action><![CDATA[#{javascript:CloudantController.connect("companies");}]]></xp:this.action>
+										</xp:eventHandler>
+									</xp:button>
+								</div>
+								<div class="col-md-6 col-xs-6">
+									<xp:div>
+										<xp:this.styleClass><![CDATA[#{javascript:if (CloudantController.connected == true){
+	return "alert alert-success";
+} else{
+	return "alert alert-warning"	
+}}]]></xp:this.styleClass>
+										<xp:text id="statusConnection" value="#{CloudantController.connected}" />
+									</xp:div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</xp:panel>
+	<xp:panel styleClass="container" id="pnlCrud">
+		<h3>CRUD</h3>
+		<div class="row">
+			<div class="col-md-4">
+				<xp:panel>
+					<h4>
+						Company
+						<small>- create</small>
+					</h4>
+					<div class="form-group">
+						<label for="name">Name:</label>
+						<xp:inputText styleClass="form-control" value="#{Company.name}" id="inpName">
+							<xp:this.attrs>
+								<xp:attr name="placeholder" value="Enter a name" />
+								<xp:attr name="id" value="name" />
+							</xp:this.attrs>
+						</xp:inputText>
+					</div>
+					<div class="form-group">
+						<label for="branche">Branche:</label>
+						<xp:inputText styleClass="form-control" value="#{Company.branche}" id="inpBranche">
+							<xp:this.attrs>
+								<xp:attr name="placeholder" value="Enter a branche" />
+								<xp:attr name="id" value="branche" />
+							</xp:this.attrs>
+						</xp:inputText>
+					</div>
+					<div class="form-group">
+						<label for="employees"># of employees:</label>
+						<xp:inputText styleClass="form-control"
+							value="#{Company.employees}" id="inpEmployees">
+							<xp:this.attrs>
+								<xp:attr name="placeholder"
+									value="Enter number of employees" />
+								<xp:attr name="id" value="employees" />
+							</xp:this.attrs>							
+						</xp:inputText>
+					</div>
+					<xp:button styleClass="btn btn-success btn-margin-right"
+						value="Create entry" id="btnCreate">
+						<i class="fa fa-check" aria-hidden="true"></i>&#160;
+						<xp:eventHandler event="onclick" submit="true"
+							refreshMode="partial" refreshId="pnlCrud">
+							<xp:this.action><![CDATA[#{javascript:Company.create();}]]></xp:this.action>
+						</xp:eventHandler>
+					</xp:button>
+				</xp:panel>
+			</div>
+			<div class="col-md-8">
+				<xp:panel id="pnlCompanies">
+				<h4>
+					Company
+					<small>- list</small>
+				</h4>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Branche</th>
+							<th># of Employees</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						<xp:repeat id="listCompanies" rows="5"
+							value="#{javascript:controller.getCompanies();}" var="obj"
+							indexVar="idx">
+							<tr>
+								<td><p><small>									
+									<xp:text escape="true"
+										id="computedField2" tagName="span"
+										title="#{javascript:obj._id}">
+										<xp:this.value><![CDATA[#{javascript:@Left(obj._id,6) + "..."}]]></xp:this.value>
+									</xp:text>
+</small></p>
+								</td>
+								<td>
+									<xp:inputText 
+										value="#{javascript:obj.name}" />
+								</td>
+								<td>
+									<xp:inputText
+										value="#{javascript:obj.branche}" />
+								</td>
+								<td>
+									<xp:inputText
+										value="#{javascript:obj.employees}">
+										<xp:this.converter>
+											<xp:convertNumber
+												type="number" integerOnly="true" />
+										</xp:this.converter>
+									</xp:inputText>
+								</td>
+								<td>
+								<xp:button value="Edit" id="btnEdit">
+								<i class="fa fa-pencil" aria-hidden="true"></i>&#160;
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="complete">
+										<xp:this.action><![CDATA[#{javascript:viewScope.put("activeId",obj._id);
+viewScope.put("newName",obj.name);
+viewScope.put("newEmployees",obj.employees);
+getComponent("dlgCompany").show()}]]></xp:this.action>
+									</xp:eventHandler>
+								</xp:button>
+								<xp:button value="Delete"
+									styleClass="btn-warning" id="btnDelete">
+									<i class="fa fa-trash" aria-hidden="true"></i>&#160;
+									<xp:eventHandler event="onclick"
+										submit="true" refreshMode="partial"
+										refreshId="pnlCompanies">
+										<xp:this.action>
+											<xp:actionGroup>
+												<xp:confirm
+													message="Sure you want to delete this entry?" />
+												<xp:executeScript
+													script="#{javascript:controller.remove(obj._id);}" />
+											</xp:actionGroup>
+										</xp:this.action>
+									</xp:eventHandler>
+								</xp:button>
+								</td>
+							</tr>
+						</xp:repeat>
+					</tbody>
+				</table>
+				<xp:pager layout="Previous Group Next"
+					partialRefresh="true" for="listCompanies">
+				</xp:pager>
+				</xp:panel>
+			</div>
+		</div>
+		<xp:panel />
+		<xe:dialog id="dlgCompany" title="Update">
+			<xe:dialogContent>
+			<xp:text escape="true" id="computedField1">
+				<xp:this.value><![CDATA[#{javascript:viewScope.get("activeId");}]]></xp:this.value>
+			</xp:text>
+			<div class="form-group">
+					<label for="name">Name:</label>
+					<xp:inputText styleClass="form-control" value="#{viewScope.newName}">
+						<xp:this.attrs>
+							<xp:attr name="placeholder" value="Enter a name" />
+							<xp:attr name="id" value="name" />
+						</xp:this.attrs>
+					</xp:inputText>
+				</div>
+				<div class="form-group">
+						<label for="employees"># of employees:</label>
+						<xp:inputText styleClass="form-control"
+							value="#{viewScope.newEmployees}" id="inputText1">
+							<xp:this.attrs>
+								<xp:attr name="placeholder"
+									value="Enter number of employees" />
+								<xp:attr name="id" value="employees" />
+							</xp:this.attrs>
+							<xp:this.converter>
+								<xp:convertNumber type="number"
+									integerOnly="true">
+								</xp:convertNumber>
+							</xp:this.converter>
+						</xp:inputText>
+				</div>
+				</xe:dialogContent>
+			<xe:dialogButtonBar>
+				<xp:button value="Cancel" id="btnCancel">
+					<i class="fa fa-ban" aria-hidden="true"></i>
+					&#160;
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="complete">
+						<xp:this.action><![CDATA[#{javascript:getComponent("dlgCompany").hide();}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+				<xp:button value="Update" styleClass="btn-success"
+					id="btnUpdate">
+					<i class="fa fa-check-square-o"
+						aria-hidden="true">
+					</i>
+					&#160;
+					<xp:eventHandler event="onclick" submit="true"
+						refreshMode="partial" refreshId="pnlCrud">
+						<xp:this.action><![CDATA[#{javascript:controller.update(viewScope.get("activeId"),viewScope.get("newName"),@Integer(viewScope.get("newEmployees")));
+getComponent("dlgCompany").hide();}]]></xp:this.action>
+					</xp:eventHandler>
+				</xp:button>
+			</xe:dialogButtonBar>
+		</xe:dialog>
+	</xp:panel>
+</xp:view>
