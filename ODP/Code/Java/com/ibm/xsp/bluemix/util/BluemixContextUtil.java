@@ -34,15 +34,12 @@ public class BluemixContextUtil {
 		this(serviceName, null, null, null);
 	}
 
-	public BluemixContextUtil(String serviceName, String username,
-			String password, String baseUrl) {
+	public BluemixContextUtil(String serviceName, String username, String password, String baseUrl) {
 		setServiceName(serviceName);
 		setHardcodedBaseUrl(baseUrl);
 		setHardcodedUsername(username);
 		setHardcodedPassword(password);
-
 		processVCAPServices();
-
 		// this.debugAuthentcation();
 	}
 
@@ -59,7 +56,6 @@ public class BluemixContextUtil {
 
 		try {
 			vcapJson = (JsonJavaObject) JsonParser.fromJson(factory, sysEnv);
-
 		} catch (JsonException e) {
 			Platform.getInstance().log(e);
 			Logging.logError(e);

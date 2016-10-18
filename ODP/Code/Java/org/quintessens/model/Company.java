@@ -29,7 +29,7 @@ public class Company implements Serializable{
 
 	private String name;
 	private String branche;
-	private String from;
+	public String from;
 	private Integer employees;
 	
 	public Integer getEmployees() {
@@ -45,8 +45,8 @@ public class Company implements Serializable{
 	private boolean readOnly;
 	
 	public Company(){ 
-		System.out.println("Company.java constructor");
-		System.out.println(className());
+		//System.out.println("Company.java constructor");
+		//System.out.println(className());
 	}
 	
 	
@@ -58,8 +58,6 @@ public class Company implements Serializable{
 	}
 	
 	public void create() throws NotesException{	
-		System.out.println("company.java create");
-		
 		setNewNote(true);
 		setReadOnly(false);
 		from = JSFUtil.getCurrentUser().getCanonical();
@@ -99,6 +97,27 @@ public class Company implements Serializable{
 		}catch (NotesException e) {
 		// ??
 		}	
+	}
+	
+	public Company load(Document doc) throws NotesException{
+		if (null == doc){
+			//item not found
+			//set valid prop to false or something
+		}
+		else{
+			if (loadValues(doc)){
+				////set valid prop to true or something
+			}
+		}
+		
+		return this;
+	}
+	
+	public boolean loadValues(Document doc) throws NotesException {
+		name = doc.getItemValueString("name");
+		branche = doc.getItemValueString("branche");
+		employees = doc.getItemValueInteger("employees");		
+		return true;
 	}
 
 	

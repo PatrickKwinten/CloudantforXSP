@@ -2,7 +2,8 @@
 <xp:view xmlns:xp="http://www.ibm.com/xsp/core" xmlns:xe="http://www.ibm.com/xsp/coreex">
 	<xp:this.beforePageLoad><![CDATA[#{javascript://for a change we do not register a managed bean
 viewScope.controller = new org.quintessens.controller.CompanyController();
-}]]>
+//connect right away
+CloudantController.connect("companies");}]]>
 	</xp:this.beforePageLoad>
 	<xp:panel styleClass="container">
 		<div class="jumbotron">
@@ -27,31 +28,100 @@ viewScope.controller = new org.quintessens.controller.CompanyController();
 						<div class="container">
 							<div class="row">
 								<div class="col-md-2 col-xs-6">
-									<xp:button value="Test Connection" id="button1"
-										styleClass="btn btn-primary">
-										<i class="fa fa-plug" aria-hidden="true"></i>&#160;
-										<xp:eventHandler event="onclick" submit="true"
-											refreshMode="complete">
-											<xp:this.action><![CDATA[#{javascript:CloudantController.connect("companies");}]]></xp:this.action>
-										</xp:eventHandler>
-									</xp:button>
-								</div>
-								<div class="col-md-6 col-xs-6">
-									<xp:div>
-										<xp:this.styleClass><![CDATA[#{javascript:if (CloudantController.connected == true){
-	return "alert alert-success";
-} else{
-	return "alert alert-warning"	
-}}]]></xp:this.styleClass>
-										<xp:text id="statusConnection" value="#{CloudantController.connected}" />
-									</xp:div>
-								</div>
+									
+									
+									</div>
+								<div class="col-md-6 col-xs-6"/>
+									
+								
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+	</xp:panel>
+
+	<xp:panel styleClass="container">
+		<h4>
+			Administration
+			<small> - some actions</small>
+		</h4>
+		<xp:panel styleClass="bs-callout bs-callout-danger">
+
+			<xp:button value="Test Connection" id="button1" styleClass="btn btn-primary">
+				<i class="fa fa-plug" aria-hidden="true" />
+				&#160;
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action><![CDATA[#{javascript:CloudantController.connect("companies");}]]></xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+			<xp:button value="Create View" id="button2">
+				<i class="fa fa-list-alt" aria-hidden="true" />
+				&#160;
+
+				<xp:eventHandler event="onclick" submit="true"
+					refreshMode="complete">
+					<xp:this.action>
+
+						<xp:actionGroup>
+							<xp:confirm message="Create a view in Cloudant db?" />
+
+							<xp:executeScript
+								script="#{javascript:CloudantController.createDesignDoc();}" />
+
+						</xp:actionGroup>
+					</xp:this.action>
+				</xp:eventHandler>
+			</xp:button>
+			<xp:button value="Migrate" id="btnMigrate">
+				<i class="fa fa-upload" aria-hidden="true" />
+				&#160;
+		
+	<xp:eventHandler event="onclick" submit="true" refreshMode="complete">
+		<xp:this.action>
+
+			<xp:actionGroup>
+				<xp:confirm
+					message="Sure to import (Notes) documents into Cloudant?"/>
+				
+				<xp:executeScript
+					script="#{javascript:CloudantController.loadTest();}"/>
+				
+			</xp:actionGroup>
+		</xp:this.action></xp:eventHandler></xp:button>
+	<xp:button value="Clear Table" id="btnClearTable"
+		styleClass="btn btn-warning">
+		<i class="fa fa-trash" aria-hidden="true"/>
+		&#160;
+		<xp:eventHandler event="onclick" submit="true"
+			refreshMode="complete">
+			<xp:this.action>
+				<xp:actionGroup>
+					<xp:confirm
+						message="Please make sure you have a full account for cloudant, not a lite license due to it's read-write limitations"/>
+					
+					<xp:executeScript
+						script="#{javascript:CloudantController.removeAllDocuments();}"/>
+					
+				</xp:actionGroup>
+			</xp:this.action>
+		</xp:eventHandler>
+	</xp:button>
+	
+		</xp:panel>
+	<xp:div>
+		<xp:this.styleClass><![CDATA[#{javascript:if (CloudantController.connected == true){
+	return "alert alert-success";
+} else{
+	return "alert alert-warning"	
+}}]]></xp:this.styleClass>
+		<p>
+			connection:<xp:text id="statusConnection"
+				value="#{CloudantController.connected}" />
+		</p>
+	</xp:div>
 	</xp:panel>
 	<xp:panel styleClass="container" id="pnlCrud">
 		<h3>CRUD</h3>
@@ -93,7 +163,7 @@ viewScope.controller = new org.quintessens.controller.CompanyController();
 					</div>
 					<xp:button styleClass="btn btn-success btn-margin-right"
 						value="Create entry" id="btnCreate">
-						<i class="fa fa-check" aria-hidden="true"></i>&#160;
+						<i class="fa fa-check" aria-hidden="true"/>&#160;
 						<xp:eventHandler event="onclick" submit="true"
 							refreshMode="partial" refreshId="pnlCrud">
 							<xp:this.action><![CDATA[#{javascript:Company.create();}]]></xp:this.action>
@@ -149,7 +219,7 @@ viewScope.controller = new org.quintessens.controller.CompanyController();
 								</td>
 								<td>
 								<xp:button value="Edit" id="btnEdit">
-								<i class="fa fa-pencil" aria-hidden="true"></i>&#160;
+								<i class="fa fa-pencil" aria-hidden="true"/>&#160;
 									<xp:eventHandler event="onclick"
 										submit="true" refreshMode="complete">
 										<xp:this.action><![CDATA[#{javascript:viewScope.put("activeId",obj._id);
@@ -160,7 +230,7 @@ getComponent("dlgCompany").show()}]]></xp:this.action>
 								</xp:button>
 								<xp:button value="Delete"
 									styleClass="btn-warning" id="btnDelete">
-									<i class="fa fa-trash" aria-hidden="true"></i>&#160;
+									<i class="fa fa-trash" aria-hidden="true"/>&#160;
 									<xp:eventHandler event="onclick"
 										submit="true" refreshMode="partial"
 										refreshId="pnlCompanies">
@@ -180,8 +250,11 @@ getComponent("dlgCompany").show()}]]></xp:this.action>
 					</tbody>
 				</table>
 				<xp:pager layout="Previous Group Next"
-					partialRefresh="true" for="listCompanies">
+					partialRefresh="true" for="listCompanies"
+					binding="#{requestScope.filePager}">
+					
 				</xp:pager>
+				
 				</xp:panel>
 			</div>
 		</div>
@@ -211,15 +284,15 @@ getComponent("dlgCompany").show()}]]></xp:this.action>
 							</xp:this.attrs>
 							<xp:this.converter>
 								<xp:convertNumber type="number"
-									integerOnly="true">
-								</xp:convertNumber>
+									integerOnly="true"/>
+								
 							</xp:this.converter>
 						</xp:inputText>
 				</div>
 				</xe:dialogContent>
 			<xe:dialogButtonBar>
 				<xp:button value="Cancel" id="btnCancel">
-					<i class="fa fa-ban" aria-hidden="true"></i>
+					<i class="fa fa-ban" aria-hidden="true"/>
 					&#160;
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="complete">
@@ -229,8 +302,8 @@ getComponent("dlgCompany").show()}]]></xp:this.action>
 				<xp:button value="Update" styleClass="btn-success"
 					id="btnUpdate">
 					<i class="fa fa-check-square-o"
-						aria-hidden="true">
-					</i>
+						aria-hidden="true"/>
+					
 					&#160;
 					<xp:eventHandler event="onclick" submit="true"
 						refreshMode="partial" refreshId="pnlCrud">

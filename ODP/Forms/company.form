@@ -1,20 +1,20 @@
 <?xml version='1.0' encoding='utf-8'?>
 <note class='form' xmlns='http://www.lotus.com/dxl' version='9.0' maintenanceversion='1.5'
  replicaid='C1258044006F49DA'>
-<noteinfo noteid='1aa' unid='49C8F2A7243EA259C125804400722DFF' sequence='1'>
+<noteinfo noteid='1aa' unid='49C8F2A7243EA259C125804400722DFF' sequence='2'>
 <created><datetime dst='true'>20161006T224708,79+02</datetime></created>
-<modified><datetime dst='true'>20161006T224708,96+02</datetime></modified>
-<revised><datetime dst='true'>20161006T224708,95+02</datetime></revised>
-<lastaccessed><datetime dst='true'>20161006T224708,96+02</datetime></lastaccessed>
+<modified><datetime dst='true'>20161017T220802,18+02</datetime></modified>
+<revised><datetime dst='true'>20161017T220802,08+02</datetime></revised>
+<lastaccessed><datetime dst='true'>20161017T220802,18+02</datetime></lastaccessed>
 <addedtofile><datetime dst='true'>20161006T224708,96+02</datetime></addedtofile></noteinfo>
 <updatedby><name>CN=Patrick Kwinten/O=quintessens</name></updatedby>
 <wassignedby><name>CN=Patrick Kwinten/O=quintessens</name></wassignedby>
+<item name='$Comment' sign='true'><text/></item>
 <item name='$HTMLCode' sign='true'>
 <rawitemdata type='1'>
 X/8QAAIADwAHAAAAAAAAAA==
 </rawitemdata></item>
 <item name='$TITLE'><text>company</text></item>
-<item name='$Comment' sign='true'><text/></item>
 <item name='$Info' sign='true'>
 <rawitemdata type='1'>
 hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
@@ -22,9 +22,29 @@ hhgBAIAAAAAAgAAAAQABAP///wAQAAAA
 <item name='$Flags'><text/></item>
 <item name='$DesignerVersion'><text>8.5.3</text></item>
 <item name='$$ScriptName' summary='false' sign='true'><text>company</text></item>
+<item name='name' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='branche' placeholder='true'>
+<rawitemdata type='0'>
+</rawitemdata></item>
+<item name='employees' summary='false'><number>0</number></item>
+<item name='$Fields'><textlist><text>employees</text><text>branche</text><text
+>name</text></textlist></item>
 <item name='$Body' sign='true'>
 <rawitemdata type='1'>
 gQKC/1oAAQAAAAAAAAAAAKAFAACgBQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8IAAEAAAo=
+AAAAAAAAAAABAAAAAJSHAAAAAAAAAAAAAAAAAQAAAAQAAACDBAEAhf8NAAEAAApuYW1lOgDdBgAA
+iv/+/1AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4AHgAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIr/KACKAAAFADACAAAAAAAAAgEAAAoAAAAAAAAAAAQA
+AAAAAG5hbWViDgEAhAAAAAAAAAAAAN4GAACK/4X/CAABAAAKgQKDBAEAhf8QAAEAAApicmFuY2hl
+Ot0GAACK//7/UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHgAeAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiv8sAIoAAAUAMAIAAAAAAAACAQAACgAAAAAA
+AAAABwAAAAAAYnJhbmNoZQBiDgEAhAAAAAAAAAAAAN4GAACK/4X/CAABAAAKgQKC/1oAAgAAAAAA
+AAAAAKAFAACgBQgA0AKgBXAIQAsQDuAQsBOAFgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAA
+AJSEoAUKAKAFCgAAAGQAAQAAAAQAAACDBAIAhf8SAAEAAAplbXBsb3llZXM63QYAAIr//v9QAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAB4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAACK/y4AigAAAwAwAgAAAAAAAAIBAAAKAAAAAAAAAAAJAAAAAABlbXBs
+b3llZXMA3gYAAIr/hf8IAAEAAAo=
 </rawitemdata></item></note>
 

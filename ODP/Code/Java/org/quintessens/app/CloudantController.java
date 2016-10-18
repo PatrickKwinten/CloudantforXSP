@@ -1,9 +1,20 @@
 package org.quintessens.app;
 
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
+
+import org.openntf.domino.Database;
+import org.openntf.domino.Document;
+import org.openntf.domino.DocumentCollection;
+import org.openntf.domino.View;
+import org.openntf.domino.utils.Factory;
+import org.quintessens.comments.utils.JSFUtil;
+import org.quintessens.model.Company;
 
 import ch.belsoft.tools.XPagesUtil;
 
@@ -26,20 +37,16 @@ public class CloudantController {
     
     private XPagesUtil xpagesUtil;  
     
-    private boolean connected = false;
+    private boolean connected;
     
     //private static final String BEAN_NAME = "CloudantService";
     
     private CloudantConnector connector;
 	
 	public CloudantController(){
-		System.out.println("constructor cloudantcontroller");
+		//System.out.println("constructor cloudantcontroller");
 	}
 
-	public void hello(){
-		System.out.println("hello");
-	}
-	
 	public void connect(String cloudantDatabase){		
 		if (xpagesUtil == null) {
 			xpagesUtil = new XPagesUtil();
@@ -50,18 +57,13 @@ public class CloudantController {
 		}
 		if (bluemixUtil == null) {
             bluemixUtil = new BluemixContextUtil(SERVICE_NAME, username, password, "");
-        }
-        
+        }        
         connector = new CloudantConnector();
-        connector.initCloudantClientAdvanced(bluemixUtil.getAccount(), bluemixUtil.getUsername(), bluemixUtil.getPassword(), cloudantDb, true, 1, 1, TimeUnit.MINUTES);
-        
+        connector.initCloudantClientAdvanced(bluemixUtil.getAccount(), bluemixUtil.getUsername(), bluemixUtil.getPassword(), cloudantDb, true, 1, 1, TimeUnit.MINUTES);        
         connected = true;
 	}
 	
-	public void connect(){
-		System.out.println("connect()!");
-		
-		
+	public void connect(){		
 		if (xpagesUtil == null) {
 			xpagesUtil = new XPagesUtil();
 			username = xpagesUtil.getLangString("cloudant.properties", "username", "");
@@ -71,16 +73,13 @@ public class CloudantController {
 		}
 		if (bluemixUtil == null) {
             bluemixUtil = new BluemixContextUtil(SERVICE_NAME, username, password, "");
-        }
-        
+        }        
         connector = new CloudantConnector();
-        connector.initCloudantClientAdvanced(bluemixUtil.getAccount(), bluemixUtil.getUsername(), bluemixUtil.getPassword(), cloudantDb, true, 1, 1, TimeUnit.MINUTES);
-        
+        connector.initCloudantClientAdvanced(bluemixUtil.getAccount(), bluemixUtil.getUsername(), bluemixUtil.getPassword(), cloudantDb, true, 1, 1, TimeUnit.MINUTES); 
         connected = true;
 	}
 
 	public boolean isConnected() {
-		System.out.println("check isconnected");
 		return connected;
 	}
 
@@ -133,6 +132,19 @@ public class CloudantController {
         }
     }
     
+    public void removeAllDocuments(){
+    	this.connect();
+    	System.out.println("removeAllDocuments");
+    	try{
+    		List<Company> docs = (List<Company>) this.findAllDocuments(Company.class);
+    		System.out.println(docs.size());
+    		this.deleteDocuments(docs);
+    	}catch (Exception e) {
+            CloudantLogger.CLOUDANT.getLogger().log(Level.SEVERE,
+                    e.getMessage());
+        }
+    }
+    
     public ConnectorResponse saveDocument(Object obj) {
         ConnectorResponse resp = null;
         try {
@@ -155,12 +167,16 @@ public class CloudantController {
         return resp;
     }
     
+    
+    
     public void saveDocuments(final List<?> docs) {
         try {
             connector.getDocumentConnector().createBulk(docs);
         } catch (Exception e) {
             CloudantLogger.CLOUDANT.getLogger().log(Level.SEVERE,
                     e.getMessage());
+            
+           
         }
     }
     
@@ -194,6 +210,19 @@ public class CloudantController {
         }
         return null;
     }
+    
+    public void createDesignDoc(){
+    	this.connect();
+    	try {
+        	HashMap<String, String> views = new HashMap<String, String>();
+        	views.put("map", "function (doc) {\n  if(doc._id ){\n    emit(doc._id, 1);\n  }\n}");
+            connector.getDocumentConnector().createDesignDocument(views, "_design/default");
+        } catch (Exception e) {
+            //CloudantLogger.CLOUDANT.getLogger().log(Level.SEVERE,e.getMessage());
+            System.out.println(e.getMessage());
+        }        
+    }
+    
     
     /**
      * 
@@ -253,8 +282,7 @@ public class CloudantController {
     }
     
     public List<?> search(final String searchIndexId, final Class<?> cls,
-            final Integer queryLimit, final String query) {
-        
+            final Integer queryLimit, final String query) {        
         try {
             return connector.getQueryConnector().search(searchIndexId, cls,
                     queryLimit, query);
@@ -272,6 +300,25 @@ public class CloudantController {
 	public String getAccount() {
 		return account;
 	}
+	
+	public void loadTest(){
+        try{
+        	this.connect();
+            Database db = Factory.getSession().getCurrentDatabase();
+            DocumentCollection col = db.getAllDocuments();
+            List<Company> docs = new ArrayList<Company>();
+        	for (Document doc : col){
+        		Company company = new Company();
+        		company.load(doc);
+        		docs.add(company);
+        	}
+        	connector.getDocumentConnector().createBulk(docs);
+        } catch (Exception e) {
+        	CloudantLogger.CLOUDANT.getLogger().log(Level.SEVERE,
+                    e.getMessage());
+        	System.out.println(e.getMessage());
+        }
+    }
 	
 	
 }

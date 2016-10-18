@@ -4,10 +4,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import lotus.domino.Database;
+import lotus.domino.Document;
 import lotus.domino.NotesException;
 
 import org.quintessens.app.CloudantController;
+import org.quintessens.comments.utils.JSFUtil;
 import org.quintessens.model.Company;
+
+import org.quintessens.comments.utils.JSFUtil;
 
 public class CompanyController implements Serializable{
 
@@ -46,4 +51,5 @@ public class CompanyController implements Serializable{
 		cloudant.updateDocument(company);
 		System.out.println("updated");
 	}
+	
 }

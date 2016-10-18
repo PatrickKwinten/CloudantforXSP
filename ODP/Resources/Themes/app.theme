@@ -48,6 +48,11 @@
 		</metaData>
 	</resources>
 	
+	<resource>
+		<content-type>text/css</content-type>
+		<href>custom.css</href>
+	</resource>
+	
 	<resource rendered="#{javascript:context.getProperty('xsp.resources.aggregate').equals('false')}">
 	    <content-type>text/css</content-type>
 	    <href>font-awesome-4.4.0/css/font-awesome-fontFamily.css</href>
